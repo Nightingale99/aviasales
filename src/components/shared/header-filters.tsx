@@ -10,7 +10,7 @@ interface HeaderFiltersProps {
 export function HeaderFilters({ className }: HeaderFiltersProps) {
   const headerOptions = useRef(headerFilters);
   return (
-    <ul className={cn('flex flex-row', className)}>
+    <ul className={cn('flex flex-row flex-wrap', className)}>
       {headerOptions.current.map((option, i, arr) => (
         <li>
           <Button

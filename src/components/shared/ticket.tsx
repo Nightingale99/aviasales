@@ -7,7 +7,7 @@ interface TicketProps {
 
 export function Ticket({ className }: TicketProps) {
   return (
-    <li className={cn('bg-white rounded-sm list-none p-5', className)}>
+    <li className={cn('bg-white rounded-sm list-none p-5 max-w-[502px]', className)}>
       <div className="flex flex-row justify-between mb-5">
         <span className="text-primary font-opensansbold text-2xl">13 400 P</span>
         <img src={s7logo} alt="company-logo" />
