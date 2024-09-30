@@ -1,5 +1,5 @@
 function App() {
-  return <div />;
+  return <main className="min-h-full">d</main>;
 }
 
 export default App;
