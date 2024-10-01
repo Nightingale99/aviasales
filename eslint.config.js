@@ -17,7 +17,7 @@ export default tseslint.config(
       'react/prop-types': 'off',
       'import/no-unresolved': 'off',
       'react/jsx-props-no-spreading': 'off',
-      'import/prefer-default-export': 'off'
+      'import/prefer-default-export': 'off',
     },
   },
   { ignores: ['dist', '**config.**'] },

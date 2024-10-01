@@ -12,7 +12,7 @@ export function TransferFilters({ className }: TransferFiltersProps) {
   return (
     <aside
       className={cn(
-        'flex flex-col bg-white max-w-[232px] rounded-md text-sm py-5 max-h-fit',
+        'flex flex-col bg-white max-w-[232px] rounded-md text-sm py-5 h-fit',
         className,
       )}
     >
