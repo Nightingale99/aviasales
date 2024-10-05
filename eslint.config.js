@@ -11,13 +11,14 @@ export default tseslint.config(
   ...compat.extends('airbnb'),
   {
     rules: {
-      'react/jsx-filename-extension': 'off',
-      'react/react-in-jsx-scope': 'off',
-      'react/require-default-props': 'off',
-      'react/prop-types': 'off',
-      'import/no-unresolved': 'off',
+      'react/jsx-filename-extension': 'off', // using tsx
+      'react/react-in-jsx-scope': 'off', // we don't need it in new vers of React
+      'react/require-default-props': 'off', // using default parameters + ts instead (also it's deprecated)
+      'react/prop-types': 'off', // using ts instead
       'react/jsx-props-no-spreading': 'off',
       'import/prefer-default-export': 'off',
+      'no-param-reassign': 'off',
+      'operator-linebreak': 'off',
     },
   },
   { ignores: ['dist', '**config.**'] },
@@ -34,10 +35,21 @@ export default tseslint.config(
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true },
+      ],
     },
     settings: {
       'import/resolver': {
+        alias: {
+          map: [
+            ['@', './src'],
+            ['@shared', './src/components/shared'],
+            ['@store', './src/store'],
+          ],
+          extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        },
         node: {
           paths: ['src'],
           extensions: ['.ts', '.tsx'],

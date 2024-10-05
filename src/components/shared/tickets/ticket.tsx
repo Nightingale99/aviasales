@@ -1,5 +1,19 @@
 import cn from '@/lib/utils.ts';
-import s7logo from '../../assets/S7Logo.svg';
+import s7logo from '../../../assets/S7Logo.svg';
+
+export interface Segment {
+  origin: string;
+  destination: string;
+  date: Date;
+  duration: number;
+  stops: string[];
+}
+
+export interface Ticket {
+  price: number;
+  carrier: string;
+  segments: Segment[];
+}
 
 interface TicketProps {
   className?: string;
@@ -7,9 +21,16 @@ interface TicketProps {
 
 export function Ticket({ className }: TicketProps) {
   return (
-    <li className={cn('bg-white rounded-sm list-none p-5 max-w-[502px]', className)}>
+    <li
+      className={cn(
+        'bg-white rounded-sm list-none p-5 max-w-[502px]',
+        className,
+      )}
+    >
       <div className="flex flex-row justify-between mb-5">
-        <span className="text-primary font-opensansbold text-2xl">13 400 P</span>
+        <span className="text-primary font-opensansbold text-2xl">
+          13 400 P
+        </span>
         <img src={s7logo} alt="company-logo" />
       </div>
       <div className="text-sm flex flex-row justify-between mb-2.5">

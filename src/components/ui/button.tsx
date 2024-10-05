@@ -10,8 +10,10 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        headerDefault: 'min-w-1/3 bg-white text-title hover:bg-primary-foreground',
-        headerActive: 'min-w-1/3 bg-primary cursor-default text-white',
+        headerDefault:
+          'min-w-1/3 bg-white text-title hover:bg-primary-foreground uppercase border-[1px] border-border  border-r-[1px]',
+        headerActive:
+          'min-w-1/3 bg-primary cursor-default text-white uppercase border-[1px] border-border  border-r-[1px]',
         showMore: 'bg-ring text-white rounded-sm hover:bg-primary',
       },
       size: {
@@ -40,7 +42,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   }, ref) => {
     const Comp = asChild ? Slot : 'button';
     return (
-      <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />
+      <Comp
+        className={cn(buttonVariants({ variant, size, className }))}
+        ref={ref}
+        {...props}
+      />
     );
   },
 );
