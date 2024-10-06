@@ -4,18 +4,19 @@ import type { Ticket } from './ticket.ts';
 
 export type TicketId = string;
 
+export type Status = 'loading' | 'fullfiled';
 export type TicketState = {
-  tickets: Record<TicketId, Ticket | undefined>;
+  tickets: Ticket[];
   searchId: string;
   stop: boolean;
-  lastIndex: number;
+  status: Status;
 };
 
 const initialState: TicketState = {
-  tickets: {},
+  tickets: [],
   searchId: '',
   stop: false,
-  lastIndex: 0,
+  status: 'loading',
 };
 
 export const ticketsSlice = createSlice({
@@ -25,32 +26,44 @@ export const ticketsSlice = createSlice({
     selectTickets: (state) => state.tickets,
     selectStop: (state) => state.stop,
     selectSearchId: (state) => state.searchId,
+    selectStatus: (state) => state.status,
   },
   reducers: {
-    // переделал массив в объект с индексами для того чтобы селекторы имели сложность O(1)
+    /* TODO: если будут селекторы со сложностью больше O(1), то заменить массив на объект */
     addTickets: (state, action: PayloadAction<Ticket[]>) => {
-      state.tickets = {
-        ...state.tickets,
-        ...action.payload.reduce(
-          (acc, ticket, ind) => ({
-            ...acc,
-            [(ind + state.lastIndex).toString()]: ticket,
-          }),
-          <Record<TicketId, Ticket | undefined>>{},
-        ),
-      };
-      state.lastIndex += action.payload.length - 1;
+      state.tickets = [...state.tickets, ...action.payload];
     },
-
     setSearchId: (state, action: PayloadAction<string>) => {
       state.searchId = action.payload;
     },
     setStop: (state, action: PayloadAction<boolean>) => {
       state.stop = action.payload;
     },
+    setStatus: (state, action: PayloadAction<Status>) => {
+      state.status = action.payload;
+    },
   },
+  // extraReducers: (builder) => {
+  //   builder.addCase(getTickets.pending, (state: TicketState) => {
+  //     state.status = 'pending';
+  //   });
+  //   builder.addCase(
+  //     getTickets.fulfilled,
+  //     (state: TicketState, action: PayloadAction<Ticket[]>) => {
+  //       state.tickets = [...state.tickets, ...action.payload];
+  //       state.status = 'fulfilled';
+  //     },
+  //   );
+  //   builder.addCase(getTickets.rejected, (state: TicketState, error) => {
+  //     state.status = 'rejected';
+  //     console.log(error);
+  //   });
+  // },
 });
 
-export const { addTickets, setSearchId, setStop } = ticketsSlice.actions;
+export const { addTickets, setSearchId, setStop, setStatus } = ticketsSlice.actions;
+
+export const { selectTickets, selectStop, selectSearchId, selectStatus } =
+  ticketsSlice.selectors;
 
 export default ticketsSlice.reducer;

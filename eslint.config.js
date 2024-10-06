@@ -4,6 +4,7 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 import { FlatCompat } from '@eslint/eslintrc';
+import eslintConfigPrettier from 'eslint-config-prettier';
 
 const compat = new FlatCompat();
 
@@ -18,12 +19,16 @@ export default tseslint.config(
       'react/jsx-props-no-spreading': 'off',
       'import/prefer-default-export': 'off',
       'no-param-reassign': 'off',
-      'operator-linebreak': 'off',
+      'jsx-a11y/heading-has-content': 'off',
     },
   },
   { ignores: ['dist', '**config.**'] },
   {
-    extends: [js.configs.recommended, ...tseslint.configs.recommended],
+    extends: [
+      js.configs.recommended,
+      ...tseslint.configs.recommended,
+      eslintConfigPrettier,
+    ],
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
       ecmaVersion: 2020,

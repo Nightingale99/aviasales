@@ -52,17 +52,14 @@ export const filtersSlice = createSlice({
     },
     setTransferFilters: (state, action: PayloadAction<string>) => {
       const value = action.payload as FilterValue;
-      if (value !== 'all') {
-        state.selectedTransferFilters[value] =
-          !state.selectedTransferFilters[value];
-      }
+      state.selectedTransferFilters[value] =
+        !state.selectedTransferFilters[value];
       if (value === 'all') {
         if (isAllOtherFiltersSelected(state.selectedTransferFilters)) {
           deselectAllOthers(state.selectedTransferFilters);
         } else {
           selectAllOthers(state.selectedTransferFilters);
         }
-        state.selectedTransferFilters.all = !state.selectedTransferFilters.all;
       } else if (state.selectedTransferFilters.all) {
         state.selectedTransferFilters.all = false;
       } else if (

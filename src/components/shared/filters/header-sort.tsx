@@ -21,7 +21,7 @@ export function HeaderFilters({ className }: HeaderFiltersProps) {
           onClick={() => dispatch(setHeaderFilter('cheapest'))}
           className="rounded-l-md"
         >
-          Самые дешевые
+          Самый дешевый
         </Button>
       </li>
       <li>
@@ -31,7 +31,7 @@ export function HeaderFilters({ className }: HeaderFiltersProps) {
           }
           onClick={() => dispatch(setHeaderFilter('fastest'))}
         >
-          Самые дешевые
+          Самый быстрый
         </Button>
       </li>
       <li>
@@ -42,7 +42,7 @@ export function HeaderFilters({ className }: HeaderFiltersProps) {
           onClick={() => dispatch(setHeaderFilter('optimal'))}
           className="rounded-r-md"
         >
-          Оптимальные
+          Оптимальный
         </Button>
       </li>
     </ul>
