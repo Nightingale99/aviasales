@@ -24,13 +24,25 @@ function numberWithSpace(num: number): string {
   return num
     .toString()
     .split('')
+    .reverse()
     .map((el, ind) => {
       if ((ind + 1) % 3 === 0) {
         return ` ${el}`;
       }
       return el;
     })
+    .reverse()
     .join('');
+}
+
+function rightEndingReturner(num: number, str: string): string {
+  if (num % 10 === 1 && num % 100 !== 11) {
+    return `${str}ок`;
+  }
+  if (num % 10 >= 2 && num % 10 <= 4 && (num % 100 < 10 || num % 100 >= 20)) {
+    return `${str}ка`;
+  }
+  return `${str}ки`;
 }
 
 export function Ticket({ className, ticketData }: TicketProps) {
@@ -87,9 +99,13 @@ export function Ticket({ className, ticketData }: TicketProps) {
             ч {(durationFirst % 60).toString().padStart(2, '0')}м
           </span>
         </div>
-        <div>
+        <div className="min-w-[102px]">
           <h6 className="text-muted uppercase text-[12px]">
-            {ticketData.segments[0].stops.length} пересадки
+            {ticketData.segments[0].stops.length}{' '}
+            {rightEndingReturner(
+              ticketData.segments[0].stops.length,
+              'пересад',
+            )}
           </h6>
           <span>{ticketData.segments[0].stops.join(', ')}</span>
         </div>
@@ -116,9 +132,14 @@ export function Ticket({ className, ticketData }: TicketProps) {
             ч {(durationSecond % 60).toString().padStart(2, '0')}м
           </span>
         </div>
-        <div>
+        <div className="min-w-[102px]">
           <h6 className="text-muted uppercase text-[12px]">
-            {ticketData.segments[1].stops.length} пересадки
+            {ticketData.segments[1].stops.length}{' '}
+            {ticketData.segments[0].stops.length}{' '}
+            {rightEndingReturner(
+              ticketData.segments[0].stops.length,
+              'пересад',
+            )}
           </h6>
           <span>{ticketData.segments[1].stops.join(', ')}</span>
         </div>
