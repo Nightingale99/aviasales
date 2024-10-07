@@ -94,7 +94,7 @@ export function TicketsGroup({ className }: TicketsGroupProps) {
           />
         ))}
       </ul>
-      {tickets.length > 4 && (
+      {tickets.length > 4 && renderTickets.length > 4 && (
         <Button
           variant="showMore"
           className="mb-5"
