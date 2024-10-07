@@ -1,6 +1,6 @@
 import cn from '@/lib/utils.ts';
 import { useSelector } from 'react-redux';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Spinner } from '@/components/ui/spinner.tsx';
 import { toast } from 'sonner';
 import { nanoid } from 'nanoid';
@@ -37,11 +37,11 @@ export function TicketsGroup({ className }: TicketsGroupProps) {
 
   const sort = useSelector(selectHeaderFilter);
 
-  const tickets = ticketsData?.tickets || [];
+  const tickets = useMemo(() => ticketsData?.tickets || [], [ticketsData]);
 
-  const renderTickets = sortTickets(
-    filterTickets(tickets, transferFilters),
-    sort,
+  const renderTickets = useMemo(
+    () => sortTickets(filterTickets(tickets, transferFilters), sort),
+    [tickets, sort, transferFilters],
   );
 
   useEffect(() => {
