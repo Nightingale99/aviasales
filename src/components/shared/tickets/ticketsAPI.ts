@@ -1,26 +1,19 @@
-import axios from 'axios';
-import { TicketState } from './ticketsSlice.ts';
+import { baseApi, TicketState } from './ticketsSlice.ts';
 
-export const getSearchId = async (): Promise<string> => {
-  const { data } = await axios.get(
-    'https://aviasales-test-api.kata.academy/search',
-  );
-  return data.searchId;
-};
+export const usersApi = baseApi.injectEndpoints({
+  endpoints: (create) => ({
+    getSearchId: create.query<{ searchId: string }, void>({
+      query: () => '/search',
+    }),
+    getTickets: create.query<TicketState, { searchId: string }>({
+      query: ({ searchId }) => `/tickets?searchId=${searchId}`,
+      merge: (currentCache, newTickets) => {
+        currentCache.tickets.push(...newTickets.tickets);
+        currentCache.stop = newTickets.stop;
+      },
+    }),
+  }),
+  overrideExisting: true,
+});
 
-export async function getTickets(searchId: string): Promise<TicketState> {
-  try {
-    const response = await axios.get(
-      `https://aviasales-test-api.kata.academy/tickets?searchId=${searchId}`,
-    );
-    return response.data;
-  } catch (error) {
-    console.log(error);
-    return {
-      searchId,
-      tickets: [],
-      stop: false,
-      status: 'loading',
-    };
-  }
-}
+export const { useGetSearchIdQuery, useGetTicketsQuery } = usersApi;

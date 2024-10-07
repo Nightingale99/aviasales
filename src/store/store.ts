@@ -1,13 +1,15 @@
 import type { Action, ThunkAction } from '@reduxjs/toolkit';
-import { configureStore } from '@reduxjs/toolkit';
-import ticketsReducer from '@shared/tickets/ticketsSlice.ts';
+import { configureStore, createAsyncThunk } from '@reduxjs/toolkit';
+import { baseApi } from '@shared/tickets/ticketsSlice.ts';
 import filtersReducer from '@shared/filters/filtersSlice.ts';
 
 export const store = configureStore({
   reducer: {
-    tickets: ticketsReducer,
     filters: filtersReducer,
+    [baseApi.reducerPath]: baseApi.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(baseApi.middleware),
 });
 
 // Infer the type of `store`
@@ -22,3 +24,9 @@ export type AppThunk<ThunkReturnType = void> = ThunkAction<
   unknown,
   Action
 >;
+
+export const createAppAsyncThunk = createAsyncThunk.withTypes<{
+  state: RootState;
+  dispatch: AppDispatch;
+  extra?: unknown;
+}>();
