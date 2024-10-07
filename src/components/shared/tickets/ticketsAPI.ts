@@ -15,7 +15,7 @@ export async function getTickets(searchId: string): Promise<TicketState> {
     );
     return response.data;
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return {
       searchId,
       tickets: [],

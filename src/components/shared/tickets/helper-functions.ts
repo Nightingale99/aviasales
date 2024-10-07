@@ -21,6 +21,9 @@ export function filterTickets(
   transferFilters: Record<FilterValue, boolean>,
 ) {
   const newTickets: Ticket[] = []; /* not mutating */
+  if (transferFilters.all) {
+    return tickets;
+  }
   if (transferFilters.none) {
     tickets.forEach((ticket) => {
       if (
@@ -34,13 +37,25 @@ export function filterTickets(
 
   if (transferFilters['1'] || transferFilters['2'] || transferFilters['3']) {
     tickets.forEach((ticket) => {
-      if (transferFilters['1'] && ticket.segments[0].stops.length === 1 && ticket.segments[1].stops.length === 1) {
+      if (
+        transferFilters['1'] &&
+        ticket.segments[0].stops.length === 1 &&
+        ticket.segments[1].stops.length === 1
+      ) {
         newTickets.push(ticket);
       }
-      if (transferFilters['2'] && ticket.segments[0].stops.length === 2 && ticket.segments[1].stops.length === 2) {
+      if (
+        transferFilters['2'] &&
+        ticket.segments[0].stops.length === 2 &&
+        ticket.segments[1].stops.length === 2
+      ) {
         newTickets.push(ticket);
       }
-      if (transferFilters['3'] && ticket.segments[0].stops.length === 3 && ticket.segments[1].stops.length === 3) {
+      if (
+        transferFilters['3'] &&
+        ticket.segments[0].stops.length === 3 &&
+        ticket.segments[1].stops.length === 3
+      ) {
         newTickets.push(ticket);
       }
     });
