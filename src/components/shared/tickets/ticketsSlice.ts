@@ -43,25 +43,10 @@ export const ticketsSlice = createSlice({
       state.status = action.payload;
     },
   },
-  // extraReducers: (builder) => {
-  //   builder.addCase(getTickets.pending, (state: TicketState) => {
-  //     state.status = 'pending';
-  //   });
-  //   builder.addCase(
-  //     getTickets.fulfilled,
-  //     (state: TicketState, action: PayloadAction<Ticket[]>) => {
-  //       state.tickets = [...state.tickets, ...action.payload];
-  //       state.status = 'fulfilled';
-  //     },
-  //   );
-  //   builder.addCase(getTickets.rejected, (state: TicketState, error) => {
-  //     state.status = 'rejected';
-  //     console.log(error);
-  //   });
-  // },
 });
 
-export const { addTickets, setSearchId, setStop, setStatus } = ticketsSlice.actions;
+export const { addTickets, setSearchId, setStop, setStatus } =
+  ticketsSlice.actions;
 
 export const { selectTickets, selectStop, selectSearchId, selectStatus } =
   ticketsSlice.selectors;
