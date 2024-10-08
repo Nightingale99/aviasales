@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import { baseApi, TicketState } from './ticketsSlice.ts';
 
 export const usersApi = baseApi.injectEndpoints({
@@ -8,8 +9,19 @@ export const usersApi = baseApi.injectEndpoints({
     getTickets: create.query<TicketState, { searchId: string }>({
       query: ({ searchId }) => `/tickets?searchId=${searchId}`,
       merge: (currentCache, newTickets) => {
-        currentCache.tickets.push(...newTickets.tickets);
+        currentCache.tickets = [...currentCache.tickets, ...newTickets.tickets];
         currentCache.stop = newTickets.stop;
+      },
+      transformResponse(baseQueryReturnValue: TicketState) {
+        const { tickets } = baseQueryReturnValue;
+        const ticketsWithIds = tickets.map((ticket) => ({
+          ...ticket,
+          id: nanoid(),
+        }));
+        return {
+          tickets: ticketsWithIds,
+          stop: baseQueryReturnValue.stop,
+        };
       },
     }),
   }),

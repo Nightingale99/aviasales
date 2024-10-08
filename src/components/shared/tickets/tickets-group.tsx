@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Spinner } from '@/components/ui/spinner.tsx';
 import { toast } from 'sonner';
-import { nanoid } from 'nanoid';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert.tsx';
 import { Ban } from 'lucide-react';
 import { Button } from '../../ui/button.tsx';
@@ -74,7 +73,7 @@ export function TicketsGroup({ className }: TicketsGroupProps) {
         )}
         {renderTickets.slice(0, showCount).map((ticket) => (
           <Ticket
-            key={nanoid()}
+            key={ticket.id}
             className="flex flex-col"
             ticketData={ticket}
           />
