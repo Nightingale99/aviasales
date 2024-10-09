@@ -1,13 +1,13 @@
 import cn from '@/lib/utils.ts';
 import { useSelector } from 'react-redux';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Spinner } from '@/components/ui/spinner.tsx';
 import { toast } from 'sonner';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert.tsx';
 import { Ban } from 'lucide-react';
 import { Button } from '../../ui/button.tsx';
 import { Ticket } from './ticket.tsx';
-import { useGetTicketsQuery, usersApi } from './ticketsAPI.ts';
+import { useGetTicketsQuery, baseApi } from './ticketsSlice.ts';
 import {
   selectHeaderFilter,
   selectTransferFilters,
@@ -19,15 +19,15 @@ interface TicketsGroupProps {
 }
 
 export function TicketsGroup({ className }: TicketsGroupProps) {
-  const { data: searchIdData } = usersApi.useGetSearchIdQuery();
+  const { data: searchIdData } = baseApi.useGetSearchIdQuery();
 
   const searchId = searchIdData?.searchId || '';
 
-  const stopRef = useRef(false);
+  const [isStop, setIsStop] = useState<boolean>(false);
 
   const { data: ticketsData } = useGetTicketsQuery(
     { searchId },
-    { skip: !searchId || stopRef.current, pollingInterval: 200 },
+    { skip: !searchId || isStop, pollingInterval: 200 },
   );
 
   const [showCount, setShowCount] = useState<number>(5);
@@ -38,23 +38,23 @@ export function TicketsGroup({ className }: TicketsGroupProps) {
 
   const tickets = useMemo(() => ticketsData?.tickets || [], [ticketsData]);
 
-  const renderTickets = useMemo(
-    () => sortTickets(filterTickets(tickets, transferFilters), sort),
-    [tickets, sort, transferFilters],
-  );
-
   useEffect(() => {
-    if (!stopRef.current) {
+    if (!isStop) {
       const stop = ticketsData?.stop;
       if (stop) {
-        stopRef.current = stop;
+        setIsStop(stop);
         toast('Билеты загружены', {
           description: `Получено ${tickets.length} билетов!`,
           duration: 5000,
         });
       }
     }
-  });
+  }, [ticketsData?.stop, isStop, tickets.length]);
+
+  const renderTickets = useMemo(
+    () => sortTickets(filterTickets(tickets, transferFilters), sort),
+    [tickets, sort, transferFilters],
+  );
 
   return (
     <>
@@ -68,7 +68,7 @@ export function TicketsGroup({ className }: TicketsGroupProps) {
             </AlertDescription>
           </Alert>
         )}
-        {!stopRef.current && (
+        {!isStop && (
           <Spinner size="large">Загружено {tickets.length} билетов</Spinner>
         )}
         {renderTickets.slice(0, showCount).map((ticket) => (
